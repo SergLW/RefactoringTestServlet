@@ -8,11 +8,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class UserServlet extends HttpServlet {
+public class UserServletOld extends HttpServlet {
 
   private final InMemoryUserRepository userRepository;
 
-  public UserServlet(InMemoryUserRepository userRepository) {
+  public UserServletOld(InMemoryUserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
