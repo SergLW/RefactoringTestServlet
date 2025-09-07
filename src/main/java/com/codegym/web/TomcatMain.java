@@ -39,7 +39,7 @@ public class TomcatMain {
     context.addServletMappingDecoded("*.jsp", "jsp");
 
     /*
-    Tomcat.addServlet(context, "userServletOld", new UserServlet(inMemoryUserRepository));
+    Tomcat.addServlet(context, "userServletOld", new UserServletOld(inMemoryUserRepository));
     context.addServletMappingDecoded("/users", "userServletOld");
     context.addServletMappingDecoded("/users/new", "userServletOld");
     context.addServletMappingDecoded("/users/create", "userServletOld");
