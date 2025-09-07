@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import static com.codegym.web.servlets.utils.UserRequestMapper.bindUser;
+
 @WebServlet(name = "UserUpdateServlet", value = "/users/update")
 public class UserUpdateServlet extends HttpServlet {
   private final InMemoryUserRepository userRepository;
@@ -26,21 +28,6 @@ public class UserUpdateServlet extends HttpServlet {
     }
     req.setAttribute("users", userRepository.findAll());
     req.getRequestDispatcher("/WEB-INF/jsp/users.jsp").forward(req, resp);
-  }
-
-  private User bindUser(HttpServletRequest req) {
-    String idStr = req.getParameter("id");
-    String firstName = req.getParameter("firstName");
-    String lastName = req.getParameter("lastName");
-    String email = req.getParameter("email");
-    int age = Integer.parseInt(req.getParameter("age"));
-
-    if (idStr == null) {
-      return new User(firstName, lastName, email, age);
-    } else {
-      Long id = Long.valueOf(idStr);
-      return new User(id, firstName, lastName, email, age);
-    }
   }
 
 }
