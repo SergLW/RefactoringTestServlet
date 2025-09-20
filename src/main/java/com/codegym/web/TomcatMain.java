@@ -2,6 +2,8 @@ package com.codegym.web;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.codegym.web.servlets.*;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
@@ -9,7 +11,6 @@ import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.jasper.servlet.JasperInitializer;
 import com.codegym.web.repository.InMemoryUserRepository;
-import com.codegym.web.servlets.UserServlet;
 
 public class TomcatMain {
   public static void main(String[] args) throws LifecycleException, IOException {
@@ -36,13 +37,29 @@ public class TomcatMain {
     jsp.addInitParameter("fork", "false");
     jsp.setLoadOnStartup(3);
     context.addServletMappingDecoded("*.jsp", "jsp");
-    Tomcat.addServlet(context, "userServlet", new UserServlet(inMemoryUserRepository));
-    context.addServletMappingDecoded("/users", "userServlet");
-    context.addServletMappingDecoded("/users/new", "userServlet");
-    context.addServletMappingDecoded("/users/create", "userServlet");
-    context.addServletMappingDecoded("/users/update", "userServlet");
-    context.addServletMappingDecoded("/users/edit", "userServlet");
-    context.addServletMappingDecoded("/users/delete", "userServlet");
+
+    /*
+    Tomcat.addServlet(context, "userServletOld", new UserServlet(inMemoryUserRepository));
+    context.addServletMappingDecoded("/users", "userServletOld");
+    context.addServletMappingDecoded("/users/new", "userServletOld");
+    context.addServletMappingDecoded("/users/create", "userServletOld");
+    context.addServletMappingDecoded("/users/update", "userServletOld");
+    context.addServletMappingDecoded("/users/edit", "userServletOld");
+    context.addServletMappingDecoded("/users/delete", "userServletOld");
+*/
+    Tomcat.addServlet(context, "usersServlet", new UsersServlet(inMemoryUserRepository));
+    Tomcat.addServlet(context, "UserCreateServlet", new UserCreateServlet(inMemoryUserRepository));
+    Tomcat.addServlet(context, "UserNewServlet", new UserNewServlet());
+    Tomcat.addServlet(context, "UserUpdateServlet", new UserUpdateServlet(inMemoryUserRepository));
+    Tomcat.addServlet(context, "UserEditServlet", new UserEditServlet(inMemoryUserRepository));
+    Tomcat.addServlet(context, "UserDeleteServlet", new UserDeleteServlet(inMemoryUserRepository));
+    context.addServletMappingDecoded("/users", "usersServlet");
+    context.addServletMappingDecoded("/users/create", "UserCreateServlet");
+    context.addServletMappingDecoded("/users/new", "UserNewServlet");
+    context.addServletMappingDecoded("/users/update", "UserUpdateServlet");
+    context.addServletMappingDecoded("/users/edit", "UserEditServlet");
+    context.addServletMappingDecoded("/users/delete", "UserDeleteServlet");
+
 
     tomcat.start();
     System.out.println("== Tomcat started on port " + tomcat.getConnector().getLocalPort());
