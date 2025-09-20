@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import static com.codegym.web.servlets.utils.UserRequestMapper.bindUser;
+
 @WebServlet(name = "UserCreateServlet", value = "/users/create")
 public class UserCreateServlet extends HttpServlet {
     private final InMemoryUserRepository userRepository;
@@ -26,18 +28,4 @@ public class UserCreateServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/jsp/users.jsp").forward(req, resp);
     }
 
-    private User bindUser(HttpServletRequest req) {
-        String idStr = req.getParameter("id");
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("email");
-        int age = Integer.parseInt(req.getParameter("age"));
-
-        if (idStr == null) {
-            return new User(firstName, lastName, email, age);
-        } else {
-            Long id = Long.valueOf(idStr);
-            return new User(id, firstName, lastName, email, age);
-        }
-    }
 }
